@@ -8,6 +8,6 @@ namespace AirlockDoorColor
 
         public override string Author => "18107, Dragon";
 
-        public override string Description => "Sets airlock button color for open doors to white. Configurable";
+        public override string Description => "Sets airlock button color for open doors to white";
     }
 }

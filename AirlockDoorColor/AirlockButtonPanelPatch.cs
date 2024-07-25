@@ -12,8 +12,8 @@ namespace AirlockDoorColor
     [HarmonyPatch(typeof(AirlockButtonPanel), "UpdateDiodes")]
     internal class AirlockButtonPanelPatch
     {
-        private static FieldInfo diodeMaterial = AccessTools.Field(typeof(Diode), "_materialData");
-        private static FieldInfo diodeproperty = AccessTools.Field(typeof(Diode), "_propertyBlock");
+        private static readonly FieldInfo diodeMaterial = AccessTools.Field(typeof(Diode), "_materialData");
+        private static readonly FieldInfo diodeproperty = AccessTools.Field(typeof(Diode), "_propertyBlock");
         //internal static Color openColor;
         private static Color closedColor = new Color(0, 6, 0, 1);
         private static Color unsafeColor = new Color(0, 0, 0, 1);
@@ -28,14 +28,14 @@ namespace AirlockDoorColor
                     bool safe = !airlockDoor.IsLocked && (airlockDoor.IsSafe || !____airlock.IsSafetyEnabled);
                     List<RendererSourceData> materialData = (List<RendererSourceData>)diodeMaterial.GetValue(___diodeInnerDoor);
                     MaterialPropertyBlock propertyBlock = (MaterialPropertyBlock)diodeproperty.GetValue(___diodeInnerDoor) ?? new MaterialPropertyBlock();
-                    MaterialUtils.UpdateRendererMaterials(materialData, "_EmissiveColor", airlockDoor.IsOpen ? BepinPlugin.Bindings.CurrentColor : safe ? closedColor : unsafeColor, propertyBlock);
+                    MaterialUtils.UpdateRendererMaterials(materialData, "_EmissiveColor", airlockDoor.IsOpen ? Configs.CurrentColor : safe ? closedColor : unsafeColor, propertyBlock);
                 }
                 else
                 {
                     bool safe = !airlockDoor.IsLocked && (airlockDoor.IsSafe || !____airlock.IsSafetyEnabled);
                     List<RendererSourceData> materialData = (List<RendererSourceData>)diodeMaterial.GetValue(___diodeOuterDoor);
                     MaterialPropertyBlock propertyBlock = (MaterialPropertyBlock)diodeproperty.GetValue(___diodeOuterDoor) ?? new MaterialPropertyBlock();
-                    MaterialUtils.UpdateRendererMaterials(materialData, "_EmissiveColor", airlockDoor.IsOpen ? BepinPlugin.Bindings.CurrentColor : safe ? closedColor : unsafeColor, propertyBlock);
+                    MaterialUtils.UpdateRendererMaterials(materialData, "_EmissiveColor", airlockDoor.IsOpen ? Configs.CurrentColor : safe ? closedColor : unsafeColor, propertyBlock);
                 }
             }
         }
